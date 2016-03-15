@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html >
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+       
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="300" height="300"></canvas>
+	<button id="throw">throw dice</button>
+	<script type="text/javascript">
+		var c = document.getElementById("canvas");		
+		var ctx = c.getContext('2d');
+        
+		var b = document.getElementById("throw");
+		b.addEventListener('click',function(){
+			init();
+		})
+		function init(){
+			var num = Math.floor(Math.random()*6)+1;
+			drawface(num);
+		}
+		function drawface(num){
+			
+			ctx.lineWidth = 5;
+			ctx.clearRect(0,0,100,100);
+			ctx.fillStyle = "#ccc";
+			ctx.fillRect(0,0,100,100);
+            
+			
+            switch(num){
+            	case 1:{
+            		draw1();
+            		break;
+            	}
+            	case 2:{
+            		draw2();
+            		break;
+            	}
+            	case 3:{
+            		draw1();
+            		draw2();
+            		break;
+            	}
+            	case 4:{
+            		draw4();
+            		break;
+            	}
+            	case 5:{
+            		draw1();
+            		draw4();
+            		break;
+            	}
+            	case 6:{
+            		draw4();
+            		draw2mid();
+            		break;
+            	}
+            }
+		}
+		function draw1(){
+			ctx.beginPath();
+			ctx.fillStyle = "#000";
+			ctx.arc(50,50,6,0,Math.PI*2,true);
+			ctx.closePath();
+			ctx.fill();
+		}
+		function draw2(){
+			ctx.beginPath();
+			ctx.fillStyle = "#000";
+			ctx.arc(20,20,6,0,Math.PI*2,true);
+			ctx.arc(80,80,6,0,Math.PI*2,true);
+			ctx.closePath();
+			ctx.fill();
+		}
+		function draw4(){
+			draw2();
+			ctx.beginPath();
+			ctx.fillStyle = "#000";
+			ctx.arc(80,20,6,0,Math.PI*2,true);
+			ctx.arc(20,80,6,0,Math.PI*2,true);
+			ctx.closePath();
+			ctx.fill();
+		}
+		function draw2mid(){
+			
+			ctx.beginPath();
+			ctx.fillStyle = "#000";
+			ctx.arc(20,50,6,0,Math.PI*2,true);
+			ctx.arc(80,50,6,0,Math.PI*2,true);
+			ctx.closePath();
+			ctx.fill();
+		}
+	</script>
+</body>
+</html>

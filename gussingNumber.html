@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+	    #hello{
+	    	width:400px;
+	    }
+	</style>
+</head>
+<body>
+	<div id="hello">
+		
+	</div>
+	<input type="number" id="number"></input>
+	<button id="guess">Guess</button>
+	<button id="reset">Reset</button>
+	<div id="tips"></div>
+	<script type="text/javascript">
+	    var num,right=0,disorder=0;
+	    var hello1 = document.getElementById("hello");
+	    var tips = document.getElementById("tips");
+		function generateNumber(){
+	        num = "";
+	        var flag = new Array(10);
+	        for(var i = 0;i<10;i++){
+	        	flag[i] = 0;
+	        }
+            for (var i = 1;i<=4;i++){
+            	var j = Math.floor(Math.random()*10);
+            	if(i == 1 &&j==0){
+        			i--;
+        			continue;           		
+            	}
+            	if(flag[j] ==0){
+            		num+=j;
+            		flag[j] =1;
+
+            	}
+            	else{
+            		i--;
+            	}
+            	
+            }
+            return num;
+		}
+		function guess(){
+            var guessNumber = document.getElementById("number").value;
+            guessNumber = Number(guessNumber);
+            if(typeof(guessNumber) == "number"){
+            	if(guessNumber>9999){
+	            	alert("the inter you input is too big");
+	            }
+	            else if(guessNumber<1000){
+	            	alert("the inter you input is too small");
+	            }
+	            else{
+	            	var strGuessNumber = String(guessNumber);
+	            	for(var i = 0;i<4;i++){
+	            		if(strGuessNumber[i] == num[i]){
+	            			right++;
+	            		}
+	            	}
+	            	for(var i = 0;i<4;i++){
+	            		if(num.indexOf(strGuessNumber[i]) !=-1){
+	            			disorder++;
+	            		}
+	            	}
+	            	if(right == 4){
+	            		
+        	            hello1.innerHTML = "<p>congratulations!you have guess the number!</p>"
+        	            tips.innerHTML = "";
+	            	}
+	            	else{
+                        hello1.innerHTML = "<p>you have guess "+right+" numbers,and "+(disorder - right)+" numbers are in wrong order</p>";
+                        var pp = document.createElement("p");
+                        pp.innerHTML=strGuessNumber+": "+right+" numbers right,"+(disorder - right)+" numbers wrong order";
+                        tips.appendChild(pp);
+	            	}
+
+	            	
+	            }
+	        } 
+	        else{
+	        	alert("please input an inter");
+	        }
+	        right = 0,disorder = 0;
+		}
+		function reset(){
+	        hello1.innerHTML = "<p>Hello,now I have a inter between 1000 and 9999,each numeber is different,would you guess it for me?input the inter below!</p>";
+	        num = generateNumber();
+	        alert(num);
+		}
+        var guess1 = document.getElementById('guess');
+        guess1.addEventListener("click",guess);
+        var reset1 = document.getElementById("reset");
+        reset1.addEventListener("click",reset);
+        window.onload = reset();
+
+	</script>
+</body>
+</html>

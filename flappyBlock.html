@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="mycan" >
+		
+	</canvas>
+	<button type="text" id='begin'>start</button>
+	<script type="text/javascript">
+	    var canvasHeight = 600,canvasWidth = 900;
+		var canva = document.getElementById("mycan");
+		var begin = document.getElementById('begin');
+		canva.setAttribute("width",canvasWidth);
+		canva.setAttribute("height",canvasHeight);
+       
+		var can = canva.getContext('2d');
+		var fallHeight = 50;
+		function init(x,y,w,h){
+			can.fillStyle = "blue";
+			can.fillRect(x,y,w,h);
+		}
+		window.onload = init(250,50,50,50);
+		function falling(){
+			can.clearRect(250,fallHeight,50,50);
+			fallHeight+=10;
+			console.log(fallHeight);
+			init(250,fallHeight,50,50);
+			if(fallHeight>=550){
+				clearInterval(slidde);
+        		clearInterval(fall);
+				alert("failed!");
+			}
+		}
+		var fall = setInterval(falling,500);
+        var x = [800,-100,-100],height=[0,0,0];
+		function initRect(index){
+			height[index] = Math.floor(Math.random()*500);
+			if(height[index] < 100)
+				height[index]+=100;
+			init(x[index],600-height[index],50,height[index]);
+			init(x[index],0,50,500-height[index]);
+		}
+        function slide(index){
+        	if(x[index] < -50)
+        		return;
+        	can.clearRect(x[index],600-height[index],50,height[index]);
+        	can.clearRect(x[index],0,50,500-height[index]);
+        	x[index]-=10;
+        	if(x[0] == 500&&x[1] ==-100){
+        		x[1] = 810;
+        		initRect(1);
+        	}
+        	if(x[0] == 200&&x[2] ==-100){
+        		x[2] = 810;
+        		initRect(2);
+        	}
+        	if(x[0] == -50){
+        		x[0] = x[1];
+        		height[0] = height[1];
+        		x[1] = x[2];
+        		height[1] = height[2];
+        		x[2] = -100;
+        		height[2] = 0;
+        		slide(0);
+        		return;
+        	}
+        	if(x[index] == 300){
+        		if((fallHeight+50)>(600-height[index]) ||(fallHeight)<(500-height[index])){
+        			clearInterval(slidde);
+        			clearInterval(fall);
+        			alert("failed!");
+        	    }
+        	}
+        	init(x[index],600-height[index],50,height[index]);
+			init(x[index],0,50,500-height[index]);
+        		
+        }
+        initRect(0);
+		var slidde = setInterval(function(){
+			falling();
+			slide(0);
+			slide(1);
+			slide(2);
+		},100);
+		 canva.addEventListener('click',function(){
+          can.clearRect(250,fallHeight,50,50);
+			fallHeight-=50;
+			console.log(fallHeight);
+			init(250,fallHeight,50,50);
+        })
+	</script>
+</body>
+</html>
